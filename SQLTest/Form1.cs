@@ -41,27 +41,39 @@ namespace SQLTest
             connecThong.Close();
         }
 
-        public static void GetData()
-        {
+        public void  GetData()
+        {   
+                /* string list = "select * from Account";
+                 SqlDataAdapter dataadapter = new SqlDataAdapter(list, myConnection);
+                 DataSet ds = new DataSet();
+                 dataadapter.Fill(ds, "Account");
+                 // SqlCommand command = new SqlCommand("select * from Account;");
+                 //grid.DataSource = ds.Tables[0];
+                 */
             string con = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Waffl\\Desktop\\C#\\SQL\\SQLTest\\SQLTest\\Database1.mdf;Integrated Security=True";
-            using (SqlConnection myConnection = new SqlConnection(con))
-            {
-                string list = "select * from Account";
-                SqlDataAdapter dataadapter = new SqlDataAdapter(list, myConnection);
-                DataSet ds = new DataSet();
-                dataadapter.Fill(ds, "Account");
-                
-                //grid.DataSource = ds.Tables[0];
-            }
-
-           // SqlCommand command = new SqlCommand("select * from Account;");
-
-
+            SqlConnection myConnection = new SqlConnection(con);
+            SqlDataAdapter cmd = new SqlDataAdapter();
+            cmd.InsertCommand = new SqlCommand("INSERT INTO Account (Username, Password) VALUES ('Jemoeder', 'jatoch')", myConnection); // Column names without '', row values with ''
+            myConnection.Open();
+           try
+           {
+               cmd.InsertCommand.ExecuteNonQuery();
+                MessageBox.Show("Data inserted!");
+           }
+            catch
+           {
+               MessageBox.Show("ERROR");
+           }
         }
 
         private void grid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GetData();
         }
     }
 }
